@@ -5,7 +5,8 @@ This document explains how to connect an external UART to Adrastea FeatherWings 
 
 ### Modifying Adrastea FeatherWing:
 To enable the external UART connection, the internal UART pins need to be isolated. This is achieved by removing the R14 and R15 resistors located on the UART0 line of the Adrastea FeatherWing (marked below).
-![Component](Image/Schematic_component.PNG)
+
+![Component](Image/Schematic_component.png)
 ![Remove](Image/Top_view.PNG)
 
 ## Steps to Demonstrate External UART using Thyone FeatherWing:
@@ -49,6 +50,7 @@ Broker: tcp://broker.hivemq.com:1883
 Topic: Adra
 Every time a caterpillar is detected, the warning message “Caterpillar Detected!” is then
 detected after subscribing on the respective broker and topic.
+
 ![MQTT_Client](Image/MQTT_test.PNG)
 
 ## Programming the Nicla Vision
