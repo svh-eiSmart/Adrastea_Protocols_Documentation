@@ -46,10 +46,10 @@ Expected Output:
 ‘0’ at the end signifies that the connection with server has been established, 1 signifies it is not connected.
 
 ### 5. Subscribing to a Topic
-Use the following command to subscribe to the desired topic “Topic_name”.
+Use the following command to subscribe to the desired topic “Subscribe_Topic”. So, while publishing a message from any other 3rd party MQTT client from topic "Subscribe_Topic" on the above server, the message will be visible on Adrastea.
 
 ```bash
-AT%MQTTCMD="subscribe",1,2,"Topic_name"
+AT%MQTTCMD="subscribe",1,2,"Subscribe_Topic"
 ```
 
 Expected Output:
@@ -61,7 +61,7 @@ OK
 ```
 
 ### 6. Publishing a Message to a Topic
-To publish a message to a subscribed topic, use the publish command. The length of the message must be specified before publishing (In the following case, length is 11).
+To publish a message to a subscribed topic, use the publish command. The length of the message must be specified before publishing (In the following case, length is 11). So, while subscribing from any other MQTT Client on topic "Topic_name" on the above server, the message will be visible on the MQTT Client
 
 ```bash
 AT%MQTTCMD="publish",1,2,0,"Topic_name",11
@@ -78,12 +78,15 @@ Hello world
 ```
 
 ## Testing the MQTT Setup
-To verify the setup, you can use the MQTT Cool platform (or similar) for testing:
-1. Open the MQTT Cool test client: MQTT Cool.
+To verify the setup, you can use the MQTT Cool platform (or similar MQTT Client) for testing:
+1. Open the MQTT Cool test client: [MQTT Cool](https://testclient-cloud.mqtt.cool/).
 2. Set the broker to tcp://broker.hivemq.com:1883.
 3. Subscribe to the Topic_name topic with QoS0.
-4. Publish the message using the publish AT command (as shown in step 6), and you should see the message "Hello world" appear on the MQTT Cool platform.
+4. Open Adrastea Commander and input the above AT commands.
+5. Publish the message using the publish AT command (as shown in step 6), and you should see the message "Hello world" appear on the MQTT Cool platform.
 
 ![MQTT Setup](Image/MQTT_without_certificates.PNG)
 
 *Fig.1 Left window: Adrastea Commander with AT Commands. Right window: MQTT test site with output of the published messages from Adrastea-1*
+
+6. Publish to the topic "Subscribe_Topic" on the MQTT Cool Client and you should be able to see the published messages from MQTT Cool onto Adrastea Commander from the Adrastea module.
