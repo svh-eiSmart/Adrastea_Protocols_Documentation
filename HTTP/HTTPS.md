@@ -91,7 +91,7 @@ OK
 %HTTPEVU:"GETRCV",1,0,1024
 ```
 
-### 6. Reading the HTTP Response
+### 7. Reading the HTTP Response
 Once the data is received, you can read the content of the HTTP response using the following command:
 
 ```bash
