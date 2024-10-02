@@ -15,7 +15,7 @@ of JP1 to the 3V3 power source.
 3. Thyone transmits data from UART1, whereas Adrastea uses UART0. Therefore,
 connect:
 U1Tx to U0Rx & U1Rx to U0Tx
-![Adrastea_design](Image/Adrastea_Feath.jfif)
+![Adrastea_design](Image/Adrastea_device.png)
 
 
 4. Use the Thyone USB stick with the SmartCommander tool to visualize, control, and transmit
