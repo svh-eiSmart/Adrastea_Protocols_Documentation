@@ -51,7 +51,7 @@ Topic: Adra
 Every time a caterpillar is detected, the warning message “Caterpillar Detected!” is then
 detected after subscribing on the respective broker and topic.
 
-![MQTT_Client](Image/MQTT_test.PNG)
+![MQTT_Client](Image/MQTT_test.png)
 
 ## Programming the Nicla Vision
 Install OpenMV Studio. Just connect the Nicla Vision and load the firmware from the link
