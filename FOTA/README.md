@@ -1,22 +1,44 @@
-# HTTP Protocol with Adrastea-I
+# FOTA Update with Adrastea-I
 
 ## Introduction
-The Adrastea-I module supports HTTP over TCP and can be used for lightweight interactions such as sending and receiving data from web servers.
-
+The Adrastea-I module supports FOTA over TCP and can be used to remotely update the firmware of the device. This document explains the steps and AT commands required to perform a FOTA update on the Adrastea-I module using an HTTP server.
 ### Key Features
-- **Protocol**: HTTP
+- **Firmware Update Protocol**: HTTP
 - **Transport**: TCP
-- **Security**: No security (for this setup)
-- **HTTP Server**: httpbin.org
+- **FOTA Server**: User-configured server where the firmware update file (update.ua) is hosted.
 
-## Setup Instructions
-The following commands guide the process of configuring HTTP communication. Each command is expected with an “OK” response
+The following commands guide you through the process of configuring the Adrastea-I module for the FOTA update. Each command is expected to return an “OK” response unless specified otherwise.
+
+## Before FOTA Update:
+The upgradeable firmware should be a delta change with the base of the current firmware. For this, load the BASE firmware onto the Adrastea (MAP-Base.bin)
+The Base Firmware has the following details:
+
+```bash
+MCU_02_02_11_00_33421_LO
+MAP Compiled on Jan 26 2024 at 15:16:41
+
+MCU menu -- MAP
+========
+help or ? - Print this help menu
+read addr - Read address (hex format)
+write addr value - Write value (hex) to address (hex)
+ps - Print task list
+meminfo - Reports memory information
+ver - Show complitaion date and time
+hifc [status [clr]] [timer MS] [sus] [res]
+serialinfo [serial num]
+time [show | set Seconds(from epoch)]]
+reset - Reset all cores
+hibernate - <enable|disable|show>
+map - pipeline to MAP via internal UART
+```
+Now, we need to update the firmware on top of this firmware through a FOTA procedure
 
 ### 1. Clearing Previous HTTP Configurations
 Before configuring a new HTTP session, clear any existing configurations:
 
 ```bash
-AT%HTTPCFG="CLEAR",1
+AT%HTTPCFG="CLEAR",3
 ```
 
 ### 2. Enabling HTTP Event Notification
@@ -27,60 +49,68 @@ AT%HTTPEV="ALL",1
 ```
 
 ### 3. Configuring the HTTP Node
-Configure the HTTP node to connect to the target server, in this case, httpbin.org:
+Configure the HTTP node with the URL of the HTTP server where the FOTA update file (update.ua) is stored. Replace xxxx with the actual server address:
 
 ```bash
-AT%HTTPCFG="NODES",1,"http://httpbin.org/get"
+AT%HTTPCFG="NODES",3,"http://xxxx/fota/update.ua"
 ```
 
-### 4. Setting HTTP Request Format
-Set the format for the HTTP request to ensure proper communication. The parameters include method type, content type, and format:
+### 4.  Re-enable HTTP Event Notifications
+To ensure event notifications are active during the update, re-enable HTTP event notifications:
 
 ```bash
-AT%HTTPCFG="FORMAT",1,0,0,0
-
+AT%HTTPEV="ALL",1
 ```
 
-### 5. Sending an HTTP GET Request
-To send an HTTP GET request to the server, use the following command:
+### 5. Setting the Request Format
+Set the request format to ensure proper communication during the FOTA process:
 
 ```bash
-AT%HTTPCMD="GET",1
+AT%HTTPCFG="FORMAT",3,0,0,0
+```
+
+### 6. Initiating the FOTA Download
+To initiate the FOTA download from the configured HTTP server, use the following command:
+
+```bash
+AT%HTTPFOTAGET=3
 ```
 
 Expected Output:
 ```bash
-%HTTPEVU:"GETRCV",1,0,218,218
+OK
+%HTTPEVU:"FOTADLRES",3,0
+```
+The FOTADLRES response indicates that the firmware download has been successfully initiated.
+
+### 7. Reboot the system
+After the firmware has been downloaded, reboot it to observe the changes
+```bash
+ATZ
 ```
 
-### 6. Reading the HTTP Response
-Once the data is received, you can read the content of the HTTP response using the following command:
+## After FOTA Update:
+The upgraded firmware should be a delta change with the base of the current firmware.
+The Updated Firmware has the following details:
 
 ```bash
-AT%HTTPREAD=1
+MCU_02_02_11_00_33421_LO
+MAP Compiled on Jan 26 2024 at 15:21:20
+
+MCU menu -- MAP
+========
+help or ? - Print this help menu
+read addr - Read address (hex format)
+write addr value - Write value (hex) to address (hex)
+ps - Print task list
+meminfo - Reports memory information
+ver - Show complitaion date and time
+hifc [status [clr]] [timer MS] [sus] [res]
+serialinfo [serial num]
+time [show | set Seconds(from epoch)]]
+reset - Reset all cores
+hibernate - <enable|disable|show>
+map - pipeline to MAP via internal UART
+test_message - prints out message
 ```
-After this, the message (e.g., "Hello world") needs to be entered as the next input:
-
-Expected Output:
-```bash
-%HTTPREAD: 218,218
-
-{
-  "args": {},
-  "headers": {
-    "Accept": "*/*",
-    "Host": "httpbin.org",
-    "X-Amzn-Trace-Id": "Root=1-66fd117b-611dbe8b5de9b62759e1cabf"
-  },
-  "origin": "3.76.246.25",
-  "url": "http://httpbin.org/get"
-}
-```
-
-## Testing the MQTT Setup
-To verify the setup:
-1. Configure the Adrastea-I module using the commands listed above on Adrastea Commander.
-2. Observe the HTTP response using the AT%HTTPREAD command, where the data returned from the server should contain request information.
-![MQTT Setup](Image/HTTP_adrasteacommander.PNG)
-
-*Fig.1 On Adrastea Commander, the GET command fetches the data from the website provided*
+We can observe that the binary file from the updated firmware was compiled at a different time compared to the Base firmware and that we have a new command "test_message" at the end.
