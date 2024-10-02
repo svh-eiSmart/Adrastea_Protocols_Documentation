@@ -84,6 +84,6 @@ To verify the setup, you can use the MQTT Cool platform (or similar) for testing
 3. Subscribe to the Topic_name topic with QoS0.
 4. Publish the message using the publish AT command (as shown in step 6), and you should see the message "Hello world" appear on the MQTT Cool platform.
 
-![MQTT Setup](./Image/MQTT_without_certificates.png)
+![MQTT Setup](Image/MQTT_without_certificates.png)
 
 *Fig.1 Left window: Adrastea Commander with AT Commands. Right window: MQTT test site with output of the published messages from Adrastea-1*
