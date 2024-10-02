@@ -1,4 +1,4 @@
-# HTTP Protocol with Adrastea-I
+# HTTPS Protocol with Adrastea-I
 
 ## Introduction
 The Adrastea-I module supports HTTP over TCP and can be used for lightweight interactions such as sending and receiving data from web servers.
