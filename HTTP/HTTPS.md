@@ -107,7 +107,7 @@ Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' data: 
 OK
 ```
 
-## Testing the MQTT Setup
+## Testing the HTTPS Setup
 To verify the setup:
 1. Configure the Adrastea-I module using the commands listed above on Adrastea Commander.
 2. Observe the HTTPS response using the AT%HTTPREAD command, where the data returned from the server should contain request information.
