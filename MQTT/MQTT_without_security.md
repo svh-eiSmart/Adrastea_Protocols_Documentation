@@ -60,7 +60,7 @@ OK
 %MQTTEVU:"SUBCONF",1,1,0
 ```
 
-### 5. Publishing a Message to a Topic
+### 6. Publishing a Message to a Topic
 To publish a message to a subscribed topic, use the publish command. The length of the message must be specified before publishing (In the following case, length is 11).
 
 ```bash
