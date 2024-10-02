@@ -12,18 +12,20 @@ The Adrastea-I module supports HTTP over TCP and can be used for lightweight int
 ## Setup Instructions
 The following commands guide the process of configuring HTTP communication. Each command is expected with an “OK” response
 
-### 1. Clearing Previous HTTP Configurations
-Before configuring a new HTTP session, clear any existing configurations:
 
-```bash
-AT%HTTPCFG="CLEAR",1
-```
 
-### 2. Enabling HTTP Event Notification
+### 1. Enabling HTTP Event Notification
 The following command enables HTTP event notifications from the Adrastea-I module:
 
 ```bash
 AT%HTTPEV="ALL",1
+```
+
+### 2. Clearing Previous HTTP Configurations
+Before configuring a new HTTP session, clear any existing configurations:
+
+```bash
+AT%HTTPCFG="CLEAR",1
 ```
 
 ### 3. Configuring the HTTP Node
@@ -59,7 +61,7 @@ Once the data is received, you can read the content of the HTTP response using t
 ```bash
 AT%HTTPREAD=1
 ```
-After this, the message (e.g., "Hello world") needs to be entered as the next input:
+After this, the data from the server is visible:
 
 Expected Output:
 ```bash
